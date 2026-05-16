@@ -1,0 +1,40 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: SpringAI
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/story_shower?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: weilin915081
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  ai:
+    deepseek:
+      api-key: sk-1afe8e586af84630a1d92026a9ff3c17
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-v4-pro
+          temperature: 0.7
+
+logging:
+  level:
+    root: info
+    org.springframework.ai: debug
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.springai.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+a2a:
+  registry:
+    server-url: http://localhost:9000
+  router:
+    llm:
+      enabled: true
+      base-url: https://api.deepseek.com
+      provider: deepseek-v4-pro   # 或其他
+      api-key: sk-1afe8e586af84630a1d92026a9ff3c17
+  cacheTtlMillis: 30
