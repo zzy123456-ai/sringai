@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,17 +23,17 @@ public class AgentRouter {
 
     private final DiscoveryClient discoveryClient;
     private final ChatClient chatClient;
-    private final RestClient restClient;
+    private final AgentInvoker agentInvoker;
 
     @Value("${a2a.router.llm.enabled:true}")
     private boolean llmEnabled;
 
     public AgentRouter(DiscoveryClient discoveryClient,
                        ChatClient chatClient,
-                       RestClient.Builder restClientBuilder) {
+                       AgentInvoker agentInvoker) {
         this.discoveryClient = discoveryClient;
         this.chatClient = chatClient;
-        this.restClient = restClientBuilder.build();
+        this.agentInvoker = agentInvoker;
     }
 
     public String execute(String userTask) {
@@ -182,21 +181,6 @@ public class AgentRouter {
         String cardJson = discoveryClient.getAgent(decision.getAgentName())
                 .orElseThrow(() -> new RuntimeException("Agent not found: " + decision.getAgentName()));
 
-        JSONObject card = JSON.parseObject(cardJson);
-        String baseUrl = card.getString("url");
-        if (baseUrl == null || baseUrl.isEmpty()) {
-            return "Agent URL not configured for: " + decision.getAgentName();
-        }
-
-        log.info("Invoking remote agent: POST {}", baseUrl);
-        try {
-            return restClient.post()
-                    .uri(baseUrl)
-                    .body(userTask)
-                    .retrieve()
-                    .body(String.class);
-        } catch (Exception e) {
-            return "Error calling agent " + decision.getAgentName() + ": " + e.getMessage();
-        }
+        return agentInvoker.invoke(cardJson, userTask);
     }
 }

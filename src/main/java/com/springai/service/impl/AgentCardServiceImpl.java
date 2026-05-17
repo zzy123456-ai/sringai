@@ -36,6 +36,60 @@ public class AgentCardServiceImpl implements AgentCardService {
     }
 
     @Override
+    public void registerMcpTool(String toolName, String agentUrl, String cardJson) {
+        AgentCard existing = agentCardMapper.findByAgentName(toolName);
+        if (existing == null) {
+            AgentCard record = new AgentCard();
+            record.setAgentName(toolName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.insert(record);
+        } else {
+            AgentCard record = new AgentCard();
+            record.setAgentName(toolName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.updateCard(record);
+        }
+    }
+
+    @Override
+    public void registerRestApi(String apiName, String agentUrl, String cardJson) {
+        AgentCard existing = agentCardMapper.findByAgentName(apiName);
+        if (existing == null) {
+            AgentCard record = new AgentCard();
+            record.setAgentName(apiName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.insert(record);
+        } else {
+            AgentCard record = new AgentCard();
+            record.setAgentName(apiName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.updateCard(record);
+        }
+    }
+
+    @Override
+    public void registerRagKb(String kbName, String agentUrl, String cardJson) {
+        AgentCard existing = agentCardMapper.findByAgentName(kbName);
+        if (existing == null) {
+            AgentCard record = new AgentCard();
+            record.setAgentName(kbName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.insert(record);
+        } else {
+            AgentCard record = new AgentCard();
+            record.setAgentName(kbName);
+            record.setAgentUrl(agentUrl);
+            record.setCardJson(cardJson);
+            agentCardMapper.updateCard(record);
+        }
+    }
+
+    @Override
     public void unregister(String agentName) {
         agentCardMapper.disableByAgentName(agentName);
     }

@@ -2,6 +2,7 @@ package com.springai.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.springai.common.config.AgentRouter;
+import com.springai.common.config.WorkflowRouter;
 import com.springai.entity.KnowledgeGroup;
 import com.springai.entity.RetrievedChunk;
 import com.springai.service.CategoryToolService;
@@ -30,6 +31,9 @@ public class TestController {
 
     @Resource
     private AgentRouter agentRouter;
+
+    @Resource
+    private WorkflowRouter workflowRouter;
 
     @Resource
     private RagService ragService;
@@ -145,6 +149,16 @@ public class TestController {
             @RequestParam(defaultValue = "帮我查询天气") String message) {
 
         String answer = agentRouter.execute(message);
+
+        return Map.of("question", message, "answer", answer);
+    }
+
+    /** 通过 WorkflowRouter 自动拆解用户任务为多步骤工作流，按序调用多个 Agent */
+    @GetMapping("/agent-workflow")
+    public Map<String, String> agentWorkflow(
+            @RequestParam(defaultValue = "帮我查询天气") String message) {
+
+        String answer = workflowRouter.execute(message);
 
         return Map.of("question", message, "answer", answer);
     }

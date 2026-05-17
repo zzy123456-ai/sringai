@@ -9,6 +9,7 @@ public class AgentCard {
     private String agentUrl;
     private String cardJson;
     private Integer enabled;
+    private String agentType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -50,6 +51,14 @@ public class AgentCard {
 
     public void setEnabled(Integer enabled) {
         this.enabled = enabled;
+    }
+
+    public String getAgentType() {
+        return agentType;
+    }
+
+    public void setAgentType(String agentType) {
+        this.agentType = agentType;
     }
 
     public LocalDateTime getCreatedAt() {

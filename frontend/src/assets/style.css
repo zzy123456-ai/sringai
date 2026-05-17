@@ -1,0 +1,49 @@
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  font-size: 24px;
+  color: #303133;
+  margin: 0 0 8px;
+}
+
+.app-header p {
+  color: #909399;
+  font-size: 14px;
+  margin: 0;
+}
+
+.main-tabs {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.panel {
+  padding: 8px 0;
+}
+
+.form-card {
+  margin-bottom: 24px;
+}
+
+.table-card {
+  margin-bottom: 16px;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+}
